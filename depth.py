@@ -7,6 +7,9 @@ the libpcl PCD format. View the resulting cloud with:
 """
 from freenect2 import Device, FrameType
 import numpy as np
+import cv2
+from PIL import Image
+
 
 # Open the default device and capture a color and depth frame.
 device = Device()
@@ -27,5 +30,10 @@ undistorted, registered, big_depth = device.registration.apply(
 with open('output.pcd', 'wb') as fobj:
     device.registration.write_pcd(fobj, undistorted, registered)
 
+
 with open('output_big.pcd', 'wb') as fobj:
-   device.registration.write_big_pcd(fobj, big_depth, rgb)
+   device.registration.write_big_pcd(fobj, big_depth, rgb)#
+
+image = rgb.to_array()
+#image /= image.max()
+cv2.imwrite("rgb_image.jpg", image)
